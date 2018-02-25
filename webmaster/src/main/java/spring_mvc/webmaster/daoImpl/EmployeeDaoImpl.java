@@ -14,7 +14,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		@Autowired
 		public SessionFactory sessionFactory;
 		public void registerEmployee(Employee e){
-			System.out.println("Srinu");
+			System.out.println("Srinu how are you");
 			Session session = sessionFactory.openSession();
 			session.save(e);
 			Transaction t = session.beginTransaction();
