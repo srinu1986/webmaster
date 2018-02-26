@@ -14,9 +14,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import spring_mvc.webmaster.interceptor.RequestProcessingTimeInterceptor;
 
 @Configuration
 @ComponentScan(basePackages="spring_mvc.webmaster")
@@ -68,6 +71,16 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
+	
+	@Override
+	   public void addInterceptors(InterceptorRegistry registry) {
+	      // Register guest interceptor with single path pattern
+	      registry.addInterceptor(new RequestProcessingTimeInterceptor()).addPathPatterns("/user/*");
+
+	      // Register admin interceptor with multiple path patterns
+	      /*registry.addInterceptor(new AdminInterceptor())
+	              .addPathPatterns(new String[] { "/admin", "/admin/*" });*/
+	   }
 
 	
 }
