@@ -3,6 +3,7 @@ package spring_mvc.webmaster.config;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Autowired
     private Environment environment;
+	
+	
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {

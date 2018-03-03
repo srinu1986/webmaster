@@ -1,10 +1,17 @@
 package spring_mvc.webmaster.controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 
+import org.glassfish.jersey.server.ExtendedUriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,8 +34,9 @@ public class HomeController {
   @Autowired
    public RegisterEmployeeServiceImpl employeeService;
 	@RequestMapping(value="/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employee> getEmployee(@PathVariable("id") Integer id){
-		Employee employee = null;
+	//public ResponseEntity<Employee> getEmployee(@PathVariable("id") Integer id){
+	 public ResponseEntity<Employee> getUserById(@PathParam ("id") Integer id){	
+	Employee employee = null;
 		try	{
 		System.out.println("id is"+id);
 		employee = employeeService.getEmployee(id);
@@ -88,4 +96,34 @@ public class HomeController {
 	    modelAndView.setViewName("error");
 	    return modelAndView;
 	}
+	@RequestMapping(value="/query")
+	 
+	 public ResponseEntity<String> getUsers(@QueryParam("from") int from,
+			 				  @QueryParam("to") int to,
+	 						  @QueryParam("orderBy") ArrayList<String> orderBy){
+		 
+		 return new ResponseEntity<String>("getuser is called, from : ", HttpStatus.OK);
+	 							  
+	 						  }
+	 @GET
+	 @RequestMapping(value="/query1")
+	 public ResponseEntity<String> getUsers1(@Context ExtendedUriInfo info){
+		 String from = info.getQueryParameters().getFirst("from");
+		 String to = info.getQueryParameters().getFirst("to");
+		 List<String> list = info.getQueryParameters().get("orderBy");
+		 return new ResponseEntity<String>("users called from  :",HttpStatus.OK);
+		 
+	 }
+	 @GET
+	 @RequestMapping(value="/add")
+	 public ResponseEntity<String> addUser(@FormParam("name") String name, @FormParam("age") Integer age) {
+		System.out.println("name : "+name +", age :"+age);
+		 return new ResponseEntity<String>("User successfully Register",HttpStatus.OK);
+		 
+	 }
+	 @GET
+	 @RequestMapping(value="/head")
+	 public ResponseEntity<String> getHeadervalue(@HeaderParam("user-agent")String agent){
+		 return new ResponseEntity<String>("Header param value"+agent,HttpStatus.OK);
+	 }
 }

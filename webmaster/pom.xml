@@ -14,7 +14,10 @@
 		<java.version>1.6</java.version>
 		<spring.version>4.2.0.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
+		 <jersey.version>2.26</jersey.version>
+		 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 
 	<dependencies>
 		<!-- Spring core & mvc -->
@@ -77,8 +80,19 @@
     <artifactId>jackson-databind</artifactId>
     <version>2.5.3</version>
 </dependency>
+<dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
+            <!-- artifactId>jersey-container-servlet</artifactId -->
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+        </dependency>
 		
 	</dependencies>
+
 
 	<repositories>
 		<repository>
@@ -102,4 +116,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
